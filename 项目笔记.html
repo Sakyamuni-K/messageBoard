@@ -1,0 +1,25 @@
+1.查询总页数 -在db.js中添加findAllCount方法
+2.页面发送/请求时,调用router.js的showIndex方法
+该方法调用db.js的findAllCount,将总该页面数count填充到
+index.ejs
+3.拷贝bootstrap的分页代码 粘贴到index.ejs,遍历count
+4.index.ejs默认发送调用getDataByPage(1)方法
+--该方法发送ajax("/findByPage?page=page")
+5.app.js中处理/findByPage,调用router.js的findByPage方法
+--router.js中调用db.find方法
+--获取传入的page
+--find的第三个参数为
+{"pageSize":3,"page":page,"sort":{"time":-1}}
+--router.js中将查到的数据data,send到index的ajax请求中
+6.index.js中的ajax请求继续处理data数据,解析数据,追加节点
+6.1准备工作：--下载underscore.min.js
+--修改模板语法<% %>为{{}}
+--在页面新增模板结构id="moban"
+6.2 ajax的success中,
+--找到moban,生成模板节点complied
+--清空页面留言本内容
+--遍历解析data的数据,填充complied内容，返回str
+--将str转成jQuery对象追加到留言本节点中
+7.index页码添加click事件,获取点击节点的页码page，
+--调用getDataByPage(page)方法
+--给页码切换样式
